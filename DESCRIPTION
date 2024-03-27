@@ -19,3 +19,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/nilforooshan/pedMermaid
+BugReports: https://github.com/nilforooshan/pedMermaid/issues
