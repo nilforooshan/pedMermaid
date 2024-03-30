@@ -17,3 +17,11 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(pedMermaid)
 ```
+
+[Markdown](https://www.markdownguide.org/) is a popular lightweight markup language that allows users to write using plain text, while adding various formatting to the text.
+It is widely used for writing web content, blogging, documentation, reporting, and presentation.
+It is supported on popular platforms such as [GitHub](https://github.com/), and popular file formats such as [R Markdown](https://rmarkdown.rstudio.com/), where markdown text, R code and outputs are collated.
+
+[Mermaid](https://mermaid.js.org/) syntax is a Markdown-inspired text definition for creating dynamic and reproducible diagrams and charts.
+It can be viewed in Mermaid editors or embedded and rendered in a Markdown or R Markdown document.
+R package pedMermaid generates Mermaid syntax for creating a pedigree flowchart in Markdown and R Markdown, from a pedigree data frame.

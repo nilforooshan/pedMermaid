@@ -6,7 +6,15 @@
 \alias{pedMermaid-package}
 \title{pedMermaid: Pedigree Mermaid Syntax}
 \description{
-Generate Mermaid syntax for a pedigree flowchart from a pedigree data frame. Mermaid syntax is commonly used to generate plots, charts, diagrams, and flowcharts. It is a textual syntax for creating reproducible illustrations. This package generates Mermaid syntax from a pedigree data frame to visualize a pedigree flowchart. The Mermaid syntax can be embedded in a Markdown or Rmarkdown file, or viewed on Mermaid editors and renderers. Links' shape, style, and orientation can be customized via function arguments, and nodes' shapes and styles can be customized via optional columns in the pedigree data frame.
+Generate Mermaid syntax for a pedigree flowchart from a pedigree data frame. Mermaid syntax is commonly used to generate plots, charts, diagrams, and flowcharts. It is a textual syntax for creating reproducible illustrations. This package generates Mermaid syntax from a pedigree data frame to visualize a pedigree flowchart. The Mermaid syntax can be embedded in a Markdown or R Markdown file, or viewed on Mermaid editors and renderers. Links' shape, style, and orientation can be customized via function arguments, and nodes' shapes and styles can be customized via optional columns in the pedigree data frame.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/nilforooshan/pedMermaid}
+  \item Report bugs at \url{https://github.com/nilforooshan/pedMermaid/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Mohammad Ali Nilforooshan \email{m.a.nilforooshan@gmail.com} (\href{https://orcid.org/0000-0003-0339-5442}{ORCID})
