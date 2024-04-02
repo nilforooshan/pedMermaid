@@ -58,13 +58,13 @@
 #' @examples
 #' # A sample pedigree data frame with only the three mandatory columns
 #' ped <- data.frame(ID = 1:7, SIRE = c(0, 0, 1, 0, 3, 0, 5), DAM = c(0, 0, 2, 2, 4, 0, 6))
-#' mermaid(ped)
+#' mermaid_md(ped)
 #'
 #' @examples
 #' # TODO: More examples
 #'
 #' @export
-mermaid <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = "N", lwd = 2, color = "black", outfile = "") {
+mermaid_md <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = "N", lwd = 2, color = "black", outfile = "") {
     # Check inputs
     ## ped
     if (!is.data.frame(ped)) stop("The pedigree object is not a data.frame.")
@@ -125,20 +125,20 @@ mermaid <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = 
         ped[!is.na(ped$TextColor), ]$TextColor <- paste0("color:", ped[!is.na(ped$TextColor), ]$TextColor)
     }
     if ("BgColor" %in% colnames(ped)) {
-        if (any(toupper(ped$BgColor) == "#ECECFF")) ped[toupper(ped$BgColor) %in% "#ECECFF", ]$BgColor <- NA
+        if (any(toupper(ped$BgColor) %in% "#ECECFF")) ped[toupper(ped$BgColor) %in% "#ECECFF", ]$BgColor <- NA
         ped[!is.na(ped$BgColor), ]$BgColor <- paste0("fill:", ped[!is.na(ped$BgColor), ]$BgColor)
     }
     if ("BorderColor" %in% colnames(ped)) {
-        if (any(toupper(ped$BorderColor) == "#9370DB")) ped[toupper(ped$BorderColor) %in% "#9370DB", ]$BorderColor <- NA
+        if (any(toupper(ped$BorderColor) %in% "#9370DB")) ped[toupper(ped$BorderColor) %in% "#9370DB", ]$BorderColor <- NA
         ped[!is.na(ped$BorderColor), ]$BorderColor <- paste0("stroke:", ped[!is.na(ped$BorderColor), ]$BorderColor)
     }
-    if ("RoundBorder" %in% colnames(ped) & any(ped$RoundBorder == "N")) ped[ped$RoundBorder %in% "N", ]$RoundBorder <- NA
+    if ("RoundBorder" %in% colnames(ped) & any(ped$RoundBorder %in% "N")) ped[ped$RoundBorder %in% "N", ]$RoundBorder <- NA
     if ("DashBorder" %in% colnames(ped)) {
-        if (any(ped$DashBorder == "N")) ped[ped$DashBorder %in% "N", ]$DashBorder <- NA
-        if (any(ped$DashBorder == "Y")) ped[ped$DashBorder %in% "Y", ]$DashBorder <- "stroke-dasharray:4"
+        if (any(ped$DashBorder %in% "N")) ped[ped$DashBorder %in% "N", ]$DashBorder <- NA
+        if (any(ped$DashBorder %in% "Y")) ped[ped$DashBorder %in% "Y", ]$DashBorder <- "stroke-dasharray:4"
     }
     if ("lwd" %in% colnames(ped)) {
-        if (any(ped$lwd == 1)) ped[ped$lwd %in% 1, ]$lwd <- NA
+        if (any(ped$lwd %in% 1)) ped[ped$lwd %in% 1, ]$lwd <- NA
         ped[!is.na(ped$lwd), ]$lwd <- paste0("stroke-width:", ped[!is.na(ped$lwd), ]$lwd)
     }
 
@@ -166,7 +166,7 @@ mermaid <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = 
         linkStyle.code <- paste.na.omit(c(stroke.dasharray, stroke.width), sep = ",")
         linkStyle.line <- paste("linkStyle default", linkStyle.code)
         # Indent
-        linkStyle.line <- paste("    ", linkStyle.line)
+        linkStyle.line <- paste("   ", linkStyle.line)
     }
 
     # Write classDef.lines, if any of the 5 of 6 optional columns exists
@@ -187,11 +187,11 @@ mermaid <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = 
     # Write node.lines
     ## Filter ped rows depending on the presence of ped$RoundBorder and ped$classNum
     if ("RoundBorder" %in% colnames(ped) & "classNum" %in% colnames(ped)) {
-        ped <- ped[!is.na(ped$RoundBorder) | !is.na(ped$classNum), ]
+        ped <- ped[!is.na(ped$SIRE) | !is.na(ped$DAM) | !is.na(ped$RoundBorder) | !is.na(ped$classNum), ]
     } else if ("RoundBorder" %in% colnames(ped) & !"classNum" %in% colnames(ped)) {
-        ped <- ped[!is.na(ped$RoundBorder), ]
+        ped <- ped[!is.na(ped$SIRE) | !is.na(ped$DAM) | !is.na(ped$RoundBorder), ]
     } else if (!"RoundBorder" %in% colnames(ped) & "classNum" %in% colnames(ped)) {
-        ped <- ped[!is.na(ped$classNum), ]
+        ped <- ped[!is.na(ped$SIRE) | !is.na(ped$DAM) | !is.na(ped$classNum), ]
     } else {
         ped <- ped[!is.na(ped$SIRE) | !is.na(ped$DAM), ]
     }
@@ -202,11 +202,13 @@ mermaid <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = 
     if (any(node.lines$parentnodes == "")) node.lines[node.lines$parentnodes == "", ]$parentnodes <- NA
     node.lines <- node.lines[, !colnames(node.lines) %in% c("SIRE", "DAM")]
     ## If RoundBorder column exists, apply it
-    if ("RoundBorder" %in% colnames(node.lines) & any(node.lines$RoundBorder == "Y")) {
+    if ("RoundBorder" %in% colnames(node.lines) & any(node.lines$RoundBorder %in% "Y")) {
         node.lines[node.lines$RoundBorder %in% "Y", ]$childnode <- paste0(node.lines[node.lines$RoundBorder %in% "Y", ]$childnode, "(", node.lines[node.lines$RoundBorder %in% "Y", ]$childnode, ")")
     }
     ## If classNum column exists, apply it
-    if ("classNum" %in% colnames(node.lines)) node.lines[!is.na(node.lines$classNum), ]$childnode <- paste0(node.lines[!is.na(node.lines$classNum), ]$childnode, ":::class", node.lines[!is.na(node.lines$classNum), ]$classNum)
+    if ("classNum" %in% colnames(node.lines)) {
+        node.lines[!is.na(node.lines$classNum), ]$childnode <- paste0(node.lines[!is.na(node.lines$classNum), ]$childnode, ":::class", node.lines[!is.na(node.lines$classNum), ]$classNum)
+    }
     ## Link parentnodes to childnode
     node.lines[!is.na(node.lines$parentnodes), ]$childnode <- paste(node.lines[!is.na(node.lines$parentnodes), ]$parentnodes, node.lines[!is.na(node.lines$parentnodes), ]$childnode, sep = type)
     node.lines <- node.lines$childnode
