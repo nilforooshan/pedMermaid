@@ -1,4 +1,7 @@
 ## TODO:
 
-- More examples in `R/mermaid_md.R` and `R/mermaid_rmd.R`.
-- Edit `NEWS.md`.
+Do these before submission to CRAN.
+
+- More tests
+- Update the version number
+- Update `README.md` (installation note) and `NEWS.md`

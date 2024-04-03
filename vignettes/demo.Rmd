@@ -131,7 +131,7 @@ graph LR
 
 ### Example 3
 
-Let's repeat example 1 for `mermaid_md`, changing link curve to `step` and dashed.
+Let's repeat example 1 for `mermaid_md`, changing link curve to `"step"` and dashed.
 
 ```{r}
 mermaid_md(ped, curve = "step", dash = "Y")

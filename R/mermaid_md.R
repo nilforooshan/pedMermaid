@@ -56,12 +56,30 @@
 #' @return : Mermaid syntax for the pedigree flowchart.
 #'
 #' @examples
-#' # A sample pedigree data frame with only the three mandatory columns
+#' # A sample pedigree data frame with only the three mandatory columns.
 #' ped <- data.frame(ID = 1:7, SIRE = c(0, 0, 1, 0, 3, 0, 5), DAM = c(0, 0, 2, 2, 4, 0, 6))
+#'
+#' # Example 1: A pedigree Mermaid syntax without customizations.
 #' mermaid_md(ped)
 #'
-#' @examples
-#' # TODO: More examples
+#' # Example 2: Repeat example 1. Change arrow links to lines and the orientation to horizontal.
+#' mermaid_md(ped, orient = "LR", type = "line")
+#'
+#' # Example 3: Repeat example 1. Pink background and round border edges for females (2, 4, 6).
+#' ped$BgColor <- c(NA, "pink", NA, "pink", NA, "pink", NA)
+#' ped$RoundBorder <- c(NA, "Y", NA, "Y", NA, "Y", NA)
+#' mermaid_md(ped)
+#'
+#' # Example 4: Repeat example 3. Ticker border line for individuals in the control group (2, 5, 7).
+#' ped$lwd <- c(1, 3, 1, 1, 3, 1, 3)
+#' mermaid_md(ped)
+#'
+#' # Example 5: Use the default value and NA alternatively. This is not different from example 4.
+#' ped$lwd <- c(NA, 3, NA, NA, 3, NA, 3)
+#' mermaid_md(ped)
+#'
+#' # Example 6: Repeat example 1. Change link curve to "step" and dashed.
+#' mermaid_md(ped, curve = "step", dash = "Y")
 #'
 #' @export
 mermaid_md <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = "N", lwd = 2, color = "black", outfile = "") {
