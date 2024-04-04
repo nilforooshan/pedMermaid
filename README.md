@@ -4,9 +4,9 @@
 
 [![R-CMD-check](https://github.com/nilforooshan/pedMermaid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nilforooshan/pedMermaid/actions/workflows/R-CMD-check.yaml)
 [![cran-version-last-release](https://www.r-pkg.org/badges/version-last-release/pedMermaid)](https://cran.r-project.org/package=pedMermaid)
-<img alt="ORCID logo" src="https://info.orcid.org/wp-content/uploads/2019/11/orcid_16x16.png" width="16" height="16" />
-0000-0003-0339-5442
-</a>
+[![github-release](https://img.shields.io/github/release/nilforooshan/pedMermaid.svg)](https://github.com/nilforooshan/pedMermaid)
+[![github-license](https://img.shields.io/github/license/nilforooshan/pedMermaid.svg)](https://github.com/nilforooshan/pedMermaid/blob/master/LICENSE)
+[![github-contributors](https://img.shields.io/github/contributors/nilforooshan/pedMermaid.svg)](https://github.com/nilforooshan/pedMermaid/graphs/contributors/)
 
 <!-- badges: end -->
 
