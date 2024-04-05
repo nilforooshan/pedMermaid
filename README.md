@@ -4,6 +4,7 @@
 
 [![R-CMD-check](https://github.com/nilforooshan/pedMermaid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/nilforooshan/pedMermaid/actions/workflows/R-CMD-check.yaml)
 [![cran-version-last-release](https://www.r-pkg.org/badges/version-last-release/pedMermaid)](https://cran.r-project.org/package=pedMermaid)
+[![cran-downloads](http://cranlogs.r-pkg.org/badges/grand-total/pedMermaid)](https://cran.r-project.org/package=pedMermaid)
 [![github-release](https://img.shields.io/github/release/nilforooshan/pedMermaid.svg)](https://github.com/nilforooshan/pedMermaid)
 [![github-license](https://img.shields.io/github/license/nilforooshan/pedMermaid.svg)](https://github.com/nilforooshan/pedMermaid/blob/master/LICENSE)
 [![github-contributors](https://img.shields.io/github/contributors/nilforooshan/pedMermaid.svg)](https://github.com/nilforooshan/pedMermaid/graphs/contributors/)
@@ -48,10 +49,10 @@ The `mermaid_md` function provides the following customizations:
 - Links
   - Orientation (top-to-bottom or left-to-right)
   - Type (arrow or line)
-  - Curve
-  - Dash (dashed or solid)
-  - Line width
-  - Color
+  - Curve (not available in `mermaid_rmd`)
+  - Dash (dashed or solid) (not available in `mermaid_rmd`)
+  - Line width (not available in `mermaid_rmd`)
+  - Color (not available in `mermaid_rmd`)
 - Nodes (node-specific)
   - Text color
   - Background color
