@@ -104,7 +104,9 @@ mermaid_md(ped)
 ped$lwd <- c(NA, 3, NA, NA, 3, NA, 3)
 mermaid_md(ped)
 
-# Example 6: Repeat example 1. Change link curve to "step" and dashed.
-mermaid_md(ped, curve = "step", dash = "Y")
+# Example 6: Repeat example 1. Change link curve to "step" and green dashed.
+mermaid_md(ped[, c("ID", "SIRE", "DAM")],
+    curve = "step", color = "#00FF00", dash = "Y"
+)
 
 }

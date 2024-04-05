@@ -1,5 +1,5 @@
 # pedMermaid
 
-## Version: 0.0.0.9
+## Version: 1.0.0
 
-* Preparing for an initial CRAN submission.
+- Initial CRAN submission.

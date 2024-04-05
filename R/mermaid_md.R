@@ -78,8 +78,10 @@
 #' ped$lwd <- c(NA, 3, NA, NA, 3, NA, 3)
 #' mermaid_md(ped)
 #'
-#' # Example 6: Repeat example 1. Change link curve to "step" and dashed.
-#' mermaid_md(ped, curve = "step", dash = "Y")
+#' # Example 6: Repeat example 1. Change link curve to "step" and green dashed.
+#' mermaid_md(ped[, c("ID", "SIRE", "DAM")],
+#'     curve = "step", color = "#00FF00", dash = "Y"
+#' )
 #'
 #' @export
 mermaid_md <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash = "N", lwd = 2, color = "black", outfile = "") {
@@ -134,30 +136,53 @@ mermaid_md <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash
     if (dash == "N") dash <- NA
     if (lwd == 2) lwd <- NA
     if (color %in% c("black", "#000000")) color <- NA
-    ## The mandatory columns of ped
+    ### The mandatory columns of ped
     ped[ped$SIRE == 0, ]$SIRE <- NA
     ped[ped$DAM == 0, ]$DAM <- NA
-    ## The optional columns of ped
+    ### The optional columns of ped
     if ("TextColor" %in% colnames(ped)) {
         if (any(ped$TextColor %in% c("black", "#000000"))) ped[ped$TextColor %in% c("black", "#000000"), ]$TextColor <- NA
-        ped[!is.na(ped$TextColor), ]$TextColor <- paste0("color:", ped[!is.na(ped$TextColor), ]$TextColor)
+        if (all(is.na(ped$TextColor))) {
+            ped$TextColor <- NULL # Drop the column
+        } else {
+            ped[!is.na(ped$TextColor), ]$TextColor <- paste0("color:", ped[!is.na(ped$TextColor), ]$TextColor)
+        }
     }
     if ("BgColor" %in% colnames(ped)) {
         if (any(toupper(ped$BgColor) %in% "#ECECFF")) ped[toupper(ped$BgColor) %in% "#ECECFF", ]$BgColor <- NA
-        ped[!is.na(ped$BgColor), ]$BgColor <- paste0("fill:", ped[!is.na(ped$BgColor), ]$BgColor)
+        if (all(is.na(ped$BgColor))) {
+            ped$BgColor <- NULL # Drop the column
+        } else {
+            ped[!is.na(ped$BgColor), ]$BgColor <- paste0("fill:", ped[!is.na(ped$BgColor), ]$BgColor)
+        }
     }
     if ("BorderColor" %in% colnames(ped)) {
         if (any(toupper(ped$BorderColor) %in% "#9370DB")) ped[toupper(ped$BorderColor) %in% "#9370DB", ]$BorderColor <- NA
-        ped[!is.na(ped$BorderColor), ]$BorderColor <- paste0("stroke:", ped[!is.na(ped$BorderColor), ]$BorderColor)
+        if (all(is.na(ped$BorderColor))) {
+            ped$BorderColor <- NULL # Drop the column
+        } else {
+            ped[!is.na(ped$BorderColor), ]$BorderColor <- paste0("stroke:", ped[!is.na(ped$BorderColor), ]$BorderColor)
+        }
     }
-    if ("RoundBorder" %in% colnames(ped) & any(ped$RoundBorder %in% "N")) ped[ped$RoundBorder %in% "N", ]$RoundBorder <- NA
+    if ("RoundBorder" %in% colnames(ped)) {
+        if (any(ped$RoundBorder %in% "N")) ped[ped$RoundBorder %in% "N", ]$RoundBorder <- NA
+        if (all(is.na(ped$RoundBorder))) ped$RoundBorder <- NULL # Drop the column
+    }
     if ("DashBorder" %in% colnames(ped)) {
         if (any(ped$DashBorder %in% "N")) ped[ped$DashBorder %in% "N", ]$DashBorder <- NA
-        if (any(ped$DashBorder %in% "Y")) ped[ped$DashBorder %in% "Y", ]$DashBorder <- "stroke-dasharray:4"
+        if (all(is.na(ped$DashBorder))) {
+            ped$DashBorder <- NULL # Drop the column
+        } else {
+            ped[ped$DashBorder %in% "Y", ]$DashBorder <- "stroke-dasharray:4"
+        }
     }
     if ("lwd" %in% colnames(ped)) {
         if (any(ped$lwd %in% 1)) ped[ped$lwd %in% 1, ]$lwd <- NA
-        ped[!is.na(ped$lwd), ]$lwd <- paste0("stroke-width:", ped[!is.na(ped$lwd), ]$lwd)
+        if (all(is.na(ped$lwd))) {
+            ped$lwd <- NULL # Drop the column
+        } else {
+            ped[!is.na(ped$lwd), ]$lwd <- paste0("stroke-width:", ped[!is.na(ped$lwd), ]$lwd)
+        }
     }
 
     # Write init.line, if color and curve are different from defaults
@@ -214,21 +239,30 @@ mermaid_md <- function(ped, orient = "TB", type = "arrow", curve = "basis", dash
         ped <- ped[!is.na(ped$SIRE) | !is.na(ped$DAM), ]
     }
     ## Create parent and child nodes
-    node.lines <- ped[, which(colnames(ped) %in% c("ID", "SIRE", "DAM", "RoundBorder", "classNum"))]
-    colnames(node.lines)[which(colnames(node.lines) == "ID")] <- "childnode"
+    node.lines <- ped[, colnames(ped) %in% c("ID", "SIRE", "DAM", "RoundBorder", "classNum")]
+    colnames(node.lines)[colnames(node.lines) == "ID"] <- "childnode"
     node.lines$parentnodes <- apply(node.lines[, c("SIRE", "DAM")], 1, paste.na.omit, sep = " & ")
     if (any(node.lines$parentnodes == "")) node.lines[node.lines$parentnodes == "", ]$parentnodes <- NA
     node.lines <- node.lines[, !colnames(node.lines) %in% c("SIRE", "DAM")]
     ## If RoundBorder column exists, apply it
     if ("RoundBorder" %in% colnames(node.lines) & any(node.lines$RoundBorder %in% "Y")) {
-        node.lines[node.lines$RoundBorder %in% "Y", ]$childnode <- paste0(node.lines[node.lines$RoundBorder %in% "Y", ]$childnode, "(", node.lines[node.lines$RoundBorder %in% "Y", ]$childnode, ")")
+        node.lines[node.lines$RoundBorder %in% "Y", ]$childnode <- paste0(
+            node.lines[node.lines$RoundBorder %in% "Y", ]$childnode, "(",
+            node.lines[node.lines$RoundBorder %in% "Y", ]$childnode, ")"
+        )
     }
     ## If classNum column exists, apply it
     if ("classNum" %in% colnames(node.lines)) {
-        node.lines[!is.na(node.lines$classNum), ]$childnode <- paste0(node.lines[!is.na(node.lines$classNum), ]$childnode, ":::class", node.lines[!is.na(node.lines$classNum), ]$classNum)
+        node.lines[!is.na(node.lines$classNum), ]$childnode <- paste0(
+            node.lines[!is.na(node.lines$classNum), ]$childnode, ":::class",
+            node.lines[!is.na(node.lines$classNum), ]$classNum
+        )
     }
     ## Link parentnodes to childnode
-    node.lines[!is.na(node.lines$parentnodes), ]$childnode <- paste(node.lines[!is.na(node.lines$parentnodes), ]$parentnodes, node.lines[!is.na(node.lines$parentnodes), ]$childnode, sep = type)
+    node.lines[!is.na(node.lines$parentnodes), ]$childnode <- paste(node.lines[!is.na(node.lines$parentnodes), ]$parentnodes,
+        node.lines[!is.na(node.lines$parentnodes), ]$childnode,
+        sep = type
+    )
     node.lines <- node.lines$childnode
     ## Indent
     node.lines <- paste("   ", node.lines)
