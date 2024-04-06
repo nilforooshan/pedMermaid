@@ -1,6 +1,6 @@
 Package: pedMermaid
 Title: Pedigree Mermaid Syntax
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: 
     person("Mohammad Ali", "Nilforooshan", , "m.a.nilforooshan@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-0339-5442"))
