@@ -30,7 +30,8 @@ library(pedMermaid)
 ped <- data.frame(ID = 1:7,
                   SIRE = c(0, 0, 1, 0, 3, 0, 5),
                   DAM = c(0, 0, 2, 2, 4, 0, 6))
-mermaid_md(ped)
+x <- mermaid_md(ped)
+# cat(x, sep = "\n") # Display the output syntax on-screen
 ```
 
 ```mermaid

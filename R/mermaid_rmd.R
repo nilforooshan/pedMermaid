@@ -42,36 +42,38 @@
 #' If no input is provided, the default orientation (`"TB"`) is used.
 #' @param type : Defines the type of links in the flowchart (`"arrow"` vs `"line"`).
 #' If no input is provided, the default link type (`"arrow"`) is used.
-#' @param outfile : The name of the output file, should the user want to pipe the output to an external file.
-#' If no filename is provided, the output will be printed on the console.
 #'
-#' @return : Mermaid syntax for the pedigree flowchart.
+#' @return : A vector of character strings. Each character string is a Mermaid syntax line.
+#' Assuming the returned output is saved in object `x`,
+#' use `cat(x, sep = "\n")` to display the output on-screen,
+#' and `cat(x, sep = "\n", file = "output.txt")` or `write(x, file = "output.txt")` to write the output into a file.
 #'
 #' @examples
 #' # A sample pedigree data frame with only the three mandatory columns.
 #' ped <- data.frame(ID = 1:7, SIRE = c(0, 0, 1, 0, 3, 0, 5), DAM = c(0, 0, 2, 2, 4, 0, 6))
 #'
 #' # Example 1: A pedigree Mermaid syntax without customizations.
-#' mermaid_rmd(ped)
+#' x <- mermaid_rmd(ped)
+#' # Read the "Value" part about displaying the output on-screen and writing it into a file.
 #'
 #' # Example 2: Repeat example 1. Change arrow links to lines and the orientation to horizontal.
-#' mermaid_rmd(ped, orient = "LR", type = "line")
+#' x <- mermaid_rmd(ped, orient = "LR", type = "line")
 #'
 #' # Example 3: Repeat example 1. Pink background and round border edges for females (2, 4, 6).
 #' ped$BgColor <- c(NA, "pink", NA, "pink", NA, "pink", NA)
 #' ped$RoundBorder <- c(NA, "Y", NA, "Y", NA, "Y", NA)
-#' mermaid_rmd(ped)
+#' x <- mermaid_rmd(ped)
 #'
 #' # Example 4: Repeat example 3. Ticker border line for individuals in the control group (2, 5, 7).
 #' ped$lwd <- c(1, 3, 1, 1, 3, 1, 3)
-#' mermaid_rmd(ped)
+#' x <- mermaid_rmd(ped)
 #'
 #' # Example 5: Use the default value and NA alternatively. This is not different from example 4.
 #' ped$lwd <- c(NA, 3, NA, NA, 3, NA, 3)
-#' mermaid_rmd(ped)
+#' x <- mermaid_rmd(ped)
 #'
 #' @export
-mermaid_rmd <- function(ped, orient = "TB", type = "arrow", outfile = "") {
+mermaid_rmd <- function(ped, orient = "TB", type = "arrow") {
     # Check inputs
     ## ped
     if (!is.data.frame(ped)) stop("The pedigree object is not a data.frame.")
@@ -207,6 +209,6 @@ mermaid_rmd <- function(ped, orient = "TB", type = "arrow", outfile = "") {
     # Cocatenate lines into the output
     output <- c("```{r, echo=FALSE}", 'mermaid("', na.omit(c(graph.line, node.lines, style.lines)), '")', "```")
 
-    # Print the output
-    cat(output, sep = "\n", file = outfile)
+    # Return the output
+    return(output)
 }

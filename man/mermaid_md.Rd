@@ -11,8 +11,7 @@ mermaid_md(
   curve = "basis",
   dash = "N",
   lwd = 2,
-  color = "black",
-  outfile = ""
+  color = "black"
 )
 }
 \arguments{
@@ -71,12 +70,12 @@ If no input is provided, the default value (2) is used.}
 
 \item{color}{: Defines the color of links in the flowchart (a valid color name or a valid hex color code).
 If no input is provided, the default color (\code{"black"} or \code{"#000000"}) is used.}
-
-\item{outfile}{: The name of the output file, should the user want to pipe the output to an external file.
-If no filename is provided, the output will be printed on the console.}
 }
 \value{
-: Mermaid syntax for the pedigree flowchart.
+: A vector of character strings. Each character string is a Mermaid syntax line.
+Assuming the returned output is saved in object \code{x},
+use \code{cat(x, sep = "\\n")} to display the output on-screen,
+and \code{cat(x, sep = "\\n", file = "output.txt")} or \code{write(x, file = "output.txt")} to write the output into a file.
 }
 \description{
 Generate Mermaid syntax for a pedigree flowchart in Markdown
@@ -86,27 +85,27 @@ Generate Mermaid syntax for a pedigree flowchart in Markdown
 ped <- data.frame(ID = 1:7, SIRE = c(0, 0, 1, 0, 3, 0, 5), DAM = c(0, 0, 2, 2, 4, 0, 6))
 
 # Example 1: A pedigree Mermaid syntax without customizations.
-mermaid_md(ped)
+x <- mermaid_md(ped)
+# Read the "Value" part about displaying the output on-screen and writing it into a file.
 
 # Example 2: Repeat example 1. Change arrow links to lines and the orientation to horizontal.
-mermaid_md(ped, orient = "LR", type = "line")
+x <- mermaid_md(ped, orient = "LR", type = "line")
 
 # Example 3: Repeat example 1. Pink background and round border edges for females (2, 4, 6).
 ped$BgColor <- c(NA, "pink", NA, "pink", NA, "pink", NA)
 ped$RoundBorder <- c(NA, "Y", NA, "Y", NA, "Y", NA)
-mermaid_md(ped)
+x <- mermaid_md(ped)
 
 # Example 4: Repeat example 3. Ticker border line for individuals in the control group (2, 5, 7).
 ped$lwd <- c(1, 3, 1, 1, 3, 1, 3)
-mermaid_md(ped)
+x <- mermaid_md(ped)
 
 # Example 5: Use the default value and NA alternatively. This is not different from example 4.
 ped$lwd <- c(NA, 3, NA, NA, 3, NA, 3)
-mermaid_md(ped)
+x <- mermaid_md(ped)
 
 # Example 6: Repeat example 1. Change link curve to "step" and green dashed.
-mermaid_md(ped[, c("ID", "SIRE", "DAM")],
-    curve = "step", color = "#00FF00", dash = "Y"
-)
+x <- mermaid_md(ped[, c("ID", "SIRE", "DAM")],
+    curve = "step", color = "#00FF00", dash = "Y")
 
 }

@@ -79,7 +79,11 @@ ped <- ped <- data.frame(
   DAM = c(0, 0, 2, 2, 4, 0, 6)
 )
 
-mermaid_md(ped)
+x <- mermaid_md(ped)
+cat(x, sep = "\n") # Display the output syntax on-screen.
+# Do one of the following to write the output syntax into a file.
+# cat(x, sep = "\n", file = "output.txt")
+# write(x, file = "output.txt")
 ```
 
 ![](example1.png)
@@ -87,8 +91,9 @@ mermaid_md(ped)
 R package `DiagrammeR` is required to illustrate Mermaid diagrams on R Markdown documents.
 
 ```{r}
+x <- mermaid_rmd(ped)
+cat(x, sep = "\n")
 library(DiagrammeR)
-mermaid_rmd(ped)
 ```
 
 ```{r, echo=FALSE}
@@ -104,18 +109,20 @@ graph TB
 ")
 ```
 
+<ins>From hereon, only the pedigree flowchart is shown, not the syntax.</ins>
+
 ### Example 2
 
 Let's repeat Example 1, changing arrow links to lines and the orientation to horizontal.
 
 ```{r}
-mermaid_md(ped, orient = "LR", type = "line")
+x <- mermaid_md(ped, orient = "LR", type = "line")
 ```
 
 ![](example2.png)
 
 ```{r}
-mermaid_rmd(ped, orient = "LR", type = "line")
+x <- mermaid_rmd(ped, orient = "LR", type = "line")
 ```
 
 ```{r, echo=FALSE}
@@ -136,7 +143,7 @@ graph LR
 Let's repeat example 1 for `mermaid_md`, changing link curve to `"step"` and dashed.
 
 ```{r}
-mermaid_md(ped, curve = "step", dash = "Y")
+x <- mermaid_md(ped, curve = "step", dash = "Y")
 ```
 
 ![](example3.png)
@@ -148,7 +155,7 @@ Let's repeat example 1 for `mermaid_rmd`, showing females (2, 4, 6) with pink ba
 ```{r}
 ped$BgColor <- c(NA, "pink", NA, "pink", NA, "pink", NA)
 ped$RoundBorder <- c(NA, "Y", NA, "Y", NA, "Y", NA)
-mermaid_rmd(ped)
+x <- mermaid_rmd(ped)
 ```
 
 ```{r, echo=FALSE}
@@ -179,7 +186,7 @@ Let's repeat Example 4, denoting individuals in the control group (2, 5, 7) with
 
 ```{r}
 ped$lwd <- c(NA, 3, 1, 1, 3, 1, 3) # NA & 1 are equivalent.
-mermaid_rmd(ped)
+x <- mermaid_rmd(ped)
 ```
 
 ```{r, echo=FALSE}
