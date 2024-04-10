@@ -15,10 +15,16 @@ R package pedMermaid generates [Mermaid](https://mermaid.js.org/) syntax for cre
 
 ## Installation
 
-You can install the development version of pedMermaid like so:
+Install the latest official version from CRAN:
 
 ```r
-devtools::install_github('nilforooshan/ggroups')
+install.packages("pedMermaid")
+```
+
+Install the latest development version (if different from the official version) from GitHub:
+
+```r
+devtools::install_github('nilforooshan/pedMermaid')
 ```
 
 ## Example
